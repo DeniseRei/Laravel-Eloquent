@@ -25,6 +25,28 @@ Route::get('/select', function(){
     dd($users);
 });
 
+Route::get('/where', function(User $user){
+   //$users = $user->get(); //trouxe a collection, todos os users
+   //$users = $user->where('email', '=', 'therese.buckridge@example.org')->first();
+   //$users = $user->where('email','therese.buckridge@example.org')->first(); //não precisa passar o '='
+   $filter = 'd';
+  // $users = $user->where('name', 'LIKE', "%{$filter}%")
+              //  ->orWhere('name', 'Gabriel')
+               // ->get(); //%$filter que contenha 'ab' no inicio, $filter% contenha no final,%$filter%, contenha na palavra
+/*     $users = $user->where('name', 'LIKE', "%{$filter}%")
+                    ->whereName('Gabriel') //->whereNot(), ->whereDate(), ->whereIn('email', []), orWherein()
+                    ->get(); */
+    $users = $user->where('name', 'LIKE', "%{$filter}%")
+                  ->orWhere(function($query) use ($filter){
+                        $query->where('name', '<>', 'Denise');
+                        $query->where('name', '=', $filter);
+                  })
+                  ->toSql();
+
+                dd($users);
+
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
