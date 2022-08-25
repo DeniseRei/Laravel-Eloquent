@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Select Function
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/select', function(){
     //$users = User::all();
     //$users = User::where('id', 10)->get();
@@ -20,7 +29,12 @@ Route::get('/select', function(){
     $users = User::firstWhere('name', request('name'));
     dd($users);
 });
-
+/*
+|--------------------------------------------------------------------------
+| Where Function
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/where', function(User $user){
    $users = $user->get(); //trouxe a collection, todos os users
    //$users = $user->where('email', '=', 'therese.buckridge@example.org')->first();
@@ -42,7 +56,12 @@ Route::get('/where', function(User $user){
                 dd($users);
 
 });
-
+/*
+|--------------------------------------------------------------------------
+| Paginate Function
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/pagination', function () {
     //$users = User::paginate(10);
         //frontend = {{ $users->links() }}
@@ -58,8 +77,51 @@ Route::get('/pagination', function () {
 
     return $users;
 });
+/*
+|--------------------------------------------------------------------------
+| Orderby Function
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/orderby', function (User $user) {
+
+    //$users = $user->orderBy('name')->get();
+    $users = $user->orderBy('id', 'DESC')->get();
+
+    //dd($users);
+
+    return $users;
+});
+/*
+|--------------------------------------------------------------------------
+| Insert Function
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/insert', function (Post $post, Request $request) {
+
+    /*Inserir na "mão"*/
+
+    $post->user_id = 1;
+    //$post->title = 'Primeiro Post ' .  Str::random(10);
+    $post->title = $request->name; /*API*///Utiliza o request
+    $post->body = 'Conteúdo do Post';
+    $post->date = date('Y-m-d');
+    $post->save();
 
 
+    /*Retorno todos os posts*/
+    $posts = $post->get();
+
+    return $posts;
+});
+
+/*
+|--------------------------------------------------------------------------
+| Welcome Function
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/', function () {
     return view('welcome');
 });
