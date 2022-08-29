@@ -19,7 +19,8 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/select', function(){
+
+Route::get('/select', function () {
     //$users = User::all();
     //$users = User::where('id', 10)->get();
     //$users = User::first();
@@ -35,15 +36,15 @@ Route::get('/select', function(){
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/where', function(User $user){
-   $users = $user->get(); //trouxe a collection, todos os users
-   //$users = $user->where('email', '=', 'therese.buckridge@example.org')->first();
-   //$users = $user->where('email','therese.buckridge@example.org')->first(); //não precisa passar o '='
-   $filter = 'd';
-  // $users = $user->where('name', 'LIKE', "%{$filter}%")
-              //  ->orWhere('name', 'Gabriel')
-               // ->get(); //%$filter que contenha 'ab' no inicio, $filter% contenha no final,%$filter%, contenha na palavra
-/*     $users = $user->where('name', 'LIKE', "%{$filter}%")
+Route::get('/where', function (User $user) {
+    $users = $user->get(); //trouxe a collection, todos os users
+    //$users = $user->where('email', '=', 'therese.buckridge@example.org')->first();
+    //$users = $user->where('email','therese.buckridge@example.org')->first(); //não precisa passar o '='
+    $filter = 'd';
+    // $users = $user->where('name', 'LIKE', "%{$filter}%")
+    //  ->orWhere('name', 'Gabriel')
+    // ->get(); //%$filter que contenha 'ab' no inicio, $filter% contenha no final,%$filter%, contenha na palavra
+    /*     $users = $user->where('name', 'LIKE', "%{$filter}%")
                     ->whereName('Gabriel') //->whereNot(), ->whereDate(), ->whereIn('email', []), orWherein()
                     ->get(); */
     /* $users = $user->where('name', 'LIKE', "%{$filter}%")
@@ -53,8 +54,7 @@ Route::get('/where', function(User $user){
                   })
                   ->toSql(); */
 
-                dd($users);
-
+    dd($users);
 });
 /*
 |--------------------------------------------------------------------------
@@ -64,8 +64,8 @@ Route::get('/where', function(User $user){
 */
 Route::get('/pagination', function () {
     //$users = User::paginate(10);
-        //frontend = {{ $users->links() }}
-        //$users = User::where('name', 'LIKE', "%a%")->paginate();
+    //frontend = {{ $users->links() }}
+    //$users = User::where('name', 'LIKE', "%a%")->paginate();
     //return $users;
 
     //para API
@@ -104,7 +104,7 @@ Route::get('/insert', function (Post $post, Request $request) {
 
     $post->user_id = 1;
     //$post->title = 'Primeiro Post ' .  Str::random(10);
-    $post->title = $request->name; /*API*///Utiliza o request
+    $post->title = $request->name; /*API*/ //Utiliza o request
     $post->body = 'Conteúdo do Post';
     $post->date = date('Y-m-d');
     $post->save();
@@ -136,14 +136,52 @@ Route::get('/insert', function (Post $post, Request $request) {
 }); */
 
 /*API request*/
-Route::get('/insert2', function(Request $request){
+Route::get('/insert2', function (Request $request) {
     $post = Post::create($request->all());
     dd($post);
     $posts = Post::get();
 
     return $posts;
 });
+/*
+|--------------------------------------------------------------------------
+| Update Function
+    //verbo http put/path, estou utilizando get para estudo
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/update', function () {
+    /*1° Recuperar registro atraves de um identificador unico e verificar se ele existe*/
+    if (!$post = Post::find(1))
+        return 'Post not found';
+    /*2° alterando valores*/
+        $post->user_id = 1;
+        $post->title = 'Valor title atualizado';
+        $post->body = 'Valor body update';
+        $post->date = date('Y-m-d');
+    /*3° salvando valores alterados*/
+        $post->save();
+    /*4° exibindo registro alterado*/
+    dd(Post::find(1));
+});
+/*
+|--------------------------------------------------------------------------
+| Update Function API Request
+    //verbo http put/path, estou utilizando get para estudo
+    //o metodo update() só funciona porque existe a fillable no Model.
+    //URL: http://localhost:8180/update2?title=update2
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/update2', function(Request $request){
+    if (!$post = Post::find(1))
+        return 'Post not found';
 
+        $post->update($request->all());
+
+        dd(Post::find(1));
+        //URL: http://localhost:8180/update2?title=update2
+});
 /*
 |--------------------------------------------------------------------------
 | Welcome Function
