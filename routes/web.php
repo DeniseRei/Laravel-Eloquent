@@ -115,6 +115,34 @@ Route::get('/insert', function (Post $post, Request $request) {
 
     return $posts;
 });
+/*
+|--------------------------------------------------------------------------
+| Insert advanced Function
+|--------------------------------------------------------------------------
+|
+
+*/
+/* Route::get('/insert2', function(){
+    $post = Post::create([
+        'user_id' => 1,
+        'title' => 'Valor name',
+        'body' => 'Valor body',
+        'date' => date('Y-m-d'),
+    ]);
+
+    $posts = Post::get();
+
+    return $posts;
+}); */
+
+/*API request*/
+Route::get('/insert2', function(Request $request){
+    $post = Post::create($request->all());
+    dd($post);
+    $posts = Post::get();
+
+    return $posts;
+});
 
 /*
 |--------------------------------------------------------------------------
