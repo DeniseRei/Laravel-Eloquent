@@ -155,12 +155,12 @@ Route::get('/update', function () {
     if (!$post = Post::find(1))
         return 'Post not found';
     /*2° alterando valores*/
-        $post->user_id = 1;
-        $post->title = 'Valor title atualizado';
-        $post->body = 'Valor body update';
-        $post->date = date('Y-m-d');
+    $post->user_id = 1;
+    $post->title = 'Valor title atualizado';
+    $post->body = 'Valor body update';
+    $post->date = date('Y-m-d');
     /*3° salvando valores alterados*/
-        $post->save();
+    $post->save();
     /*4° exibindo registro alterado*/
     dd(Post::find(1));
 });
@@ -173,14 +173,52 @@ Route::get('/update', function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/update2', function(Request $request){
+Route::get('/update2', function (Request $request) {
     if (!$post = Post::find(1))
         return 'Post not found';
 
-        $post->update($request->all());
+    $post->update($request->all());
 
-        dd(Post::find(1));
-        //URL: http://localhost:8180/update2?title=update2
+    dd(Post::find(1));
+    //URL: http://localhost:8180/update2?title=update2
+});
+/*
+|--------------------------------------------------------------------------
+| Delete Function
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/delete', function () {
+    /*Encontrar o registro que eu quero deletar*/
+
+    if (!$post = Post::find(4))
+        return "Post not found";
+
+    $post->delete();
+
+    $posts = Post::all();
+
+    return $posts;
+
+    /*Destroy*/
+    /*Post::destroy(Post::get()) = dentro do metodo eu passo um parametro, um array,
+    tem mais possibilidades que o delete()*/
+});
+/*
+|--------------------------------------------------------------------------
+| Delete Function 2
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/delete2', function () {
+
+    if (!$post = Post::destroy(5))
+        return "Post not found";
+
+    $posts = Post::get();
+
+    return $posts;
+
 });
 /*
 |--------------------------------------------------------------------------
