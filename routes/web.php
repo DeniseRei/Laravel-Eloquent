@@ -227,7 +227,9 @@ Route::get('/delete2', function () {
 */
 Route::get('/accessor', function () {
     $post = Post::first();
-    return $post->title_and_body;
+
+    return $post;
+   //return $post->date;
 });
 /*
 |--------------------------------------------------------------------------

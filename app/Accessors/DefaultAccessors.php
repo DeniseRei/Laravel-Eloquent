@@ -6,15 +6,15 @@ namespace App\Accessors;
 
 trait DefaultAccessors
 {
-    public function getTitleAttribute($title)
+    /* public function getTitleAttribute($title)
     {
         return strtoupper($title);
     }
 
     /*Titulo + body, da pra fazer full name por exemplo*/
 
-    public function getTitleAndBodyAttribute()
+   /*  public function getTitleAndBodyAttribute()
     {
         return $this->title . ' - ' . $this->body;
-    }
+    } */
 }
