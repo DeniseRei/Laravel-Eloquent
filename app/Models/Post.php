@@ -16,16 +16,23 @@ class Post extends Model
 
     /*Especificar a tipagem*/
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime:d/m/Y',
         //active => 'boolean',
     ];
 
-    /*Accessor*/
+    /*Accessor* = Acessor -> Altera os dados no momento de recuperar do banco./
 
-    /*Casting*/
-    public function getDateAttribute($date)
+    /*Casting* = Casts -> Faz o casting automatico do tipo no momento de persistir no banco.*/
+        /* public function getDateAttribute($date)
     {
         return Carbon::make($date)->format('d/m/Y');
+    } */
+
+    /* Mutator -> Altera os dados no momento de persistir no banco.*/
+
+    public function setDateAttributte($value)
+    {
+        $this->attributes['date'] = Carbon::make($value)->format('Y-m-d');
     }
 
     /* Titulo do post em maiusculo */
