@@ -30,12 +30,14 @@ Route::get('/select', function () {
     $users = User::firstWhere('name', request('name'));
     dd($users);
 });
+
 /*
 |--------------------------------------------------------------------------
 | Where Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/where', function (User $user) {
     $users = $user->get(); //trouxe a collection, todos os users
     //$users = $user->where('email', '=', 'therese.buckridge@example.org')->first();
@@ -56,12 +58,14 @@ Route::get('/where', function (User $user) {
 
     dd($users);
 });
+
 /*
 |--------------------------------------------------------------------------
 | Paginate Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/pagination', function () {
     //$users = User::paginate(10);
     //frontend = {{ $users->links() }}
@@ -77,12 +81,14 @@ Route::get('/pagination', function () {
 
     return $users;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Orderby Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/orderby', function (User $user) {
 
     //$users = $user->orderBy('name')->get();
@@ -92,12 +98,14 @@ Route::get('/orderby', function (User $user) {
 
     return $users;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Insert Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/insert', function (Post $post, Request $request) {
 
     /*Inserir na "mão"*/
@@ -109,19 +117,19 @@ Route::get('/insert', function (Post $post, Request $request) {
     $post->date = date('Y-m-d');
     $post->save();
 
-
     /*Retorno todos os posts*/
     $posts = $post->get();
 
     return $posts;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Insert advanced Function
 |--------------------------------------------------------------------------
 |
-
 */
+
 /* Route::get('/insert2', function(){
     $post = Post::create([
         'user_id' => 1,
@@ -143,6 +151,7 @@ Route::get('/insert2', function (Request $request) {
 
     return $posts;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Update Function
@@ -150,6 +159,7 @@ Route::get('/insert2', function (Request $request) {
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/update', function () {
     /*1° Recuperar registro atraves de um identificador unico e verificar se ele existe*/
     if (!$post = Post::find(1))
@@ -164,6 +174,7 @@ Route::get('/update', function () {
     /*4° exibindo registro alterado*/
     dd(Post::find(1));
 });
+
 /*
 |--------------------------------------------------------------------------
 | Update Function API Request
@@ -173,6 +184,7 @@ Route::get('/update', function () {
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/update2', function (Request $request) {
     if (!$post = Post::find(1))
         return 'Post not found';
@@ -182,12 +194,14 @@ Route::get('/update2', function (Request $request) {
     dd(Post::find(1));
     //URL: http://localhost:8180/update2?title=update2
 });
+
 /*
 |--------------------------------------------------------------------------
 | Delete Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/delete', function () {
     /*Encontrar o registro que eu quero deletar*/
 
@@ -204,12 +218,14 @@ Route::get('/delete', function () {
     /*Post::destroy(Post::get()) = dentro do metodo eu passo um parametro, um array,
     tem mais possibilidades que o delete()*/
 });
+
 /*
 |--------------------------------------------------------------------------
 | Delete Function 2
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/delete2', function () {
 
     if (!$post = Post::destroy(5))
@@ -219,25 +235,29 @@ Route::get('/delete2', function () {
 
     return $posts;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Accessor Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/accessor', function () {
     $post = Post::first();
 
     return $post;
-   //return $post->date;
+    //return $post->date;
 });
+
 /*
 |--------------------------------------------------------------------------
 | Mutators Function
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/mutators', function(){
+
+Route::get('/mutators', function () {
 
     $user = User::first();
     $post = Post::create([
@@ -250,14 +270,29 @@ Route::get('/mutators', function(){
     //$posts = Post::get();
 
     return $post;
-
 });
+
+/*
+|--------------------------------------------------------------------------
+| Local Scope Function
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('/local-scope', function () {
+    //$posts = Post::lastWeek()->get();
+    /* $posts = Post::today()->get(); */
+    $posts = Post::between('2022-01-01', '2022-12-31')->get();
+    return $posts;
+});
+
 /*
 |--------------------------------------------------------------------------
 | Welcome Function
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/', function () {
     return view('welcome');
 });

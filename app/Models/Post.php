@@ -23,7 +23,7 @@ class Post extends Model
     /*Accessor* = Acessor -> Altera os dados no momento de recuperar do banco./
 
     /*Casting* = Casts -> Faz o casting automatico do tipo no momento de persistir no banco.*/
-        /* public function getDateAttribute($date)
+    /* public function getDateAttribute($date)
     {
         return Carbon::make($date)->format('d/m/Y');
     } */
@@ -42,9 +42,28 @@ class Post extends Model
     }
 
     /* Titulo + body, da pra fazer full name por exemplo*/
-
     public function getTitleAndBodyAttribute()
     {
         return $this->title . ' - ' . $this->body;
+    }
+    /*Locas Scope*/
+    public function scopeLastWeek($query)
+    {
+        return $this->whereDate('date', '>=', now()->subDays(4))
+            ->whereDate('date', '<=', now()->subDays(1));
+    }
+
+    public function scopeToday($query)
+    {
+        return $this->whereDate('date', now());
+    }
+
+    public function scopeBetween($query, $firstDate, $lastDate)
+    {
+        $firstDate = Carbon::make($firstDate)->format('Y-m-d');
+        $lastDate = Carbon::make($lastDate)->format('Y-m-d');
+
+        return $this->whereDate('date', '>=', $firstDate)
+        ->whereDate('date', '<=', $lastDate);
     }
 }
