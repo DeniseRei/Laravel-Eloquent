@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -65,5 +66,13 @@ class Post extends Model
 
         return $this->whereDate('date', '>=', $firstDate)
         ->whereDate('date', '<=', $lastDate);
+    }
+
+    /*Anonymous Global Scope*/
+    protected static function booted()
+    {
+        static::addGlobalScope('year', function(Builder $builder ){
+            $builder->whereYear('date', Carbon::now()->year);
+        });
     }
 }

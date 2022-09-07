@@ -288,6 +288,22 @@ Route::get('/local-scope', function () {
 
 /*
 |--------------------------------------------------------------------------
+| Local Scope Function
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('/anonymous-global-scopes', function(){
+    //$posts = Post::get();
+
+    /*Se não quiser utilizar o scope global*/
+    $posts = Post::withoutGlobalScope('year')->get();
+
+    return $posts;
+});
+
+/*
+|--------------------------------------------------------------------------
 | Welcome Function
 |--------------------------------------------------------------------------
 |
