@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Accessors\DefaultAccessors;
+use App\Scopes\YearScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -70,9 +71,11 @@ class Post extends Model
 
     /*Anonymous Global Scope*/
     protected static function booted()
-    {
-        static::addGlobalScope('year', function(Builder $builder ){
-            $builder->whereYear('date', Carbon::now()->year);
-        });
-    }
+     {
+    //     static::addGlobalScope('year', function(Builder $builder ){
+    //         $builder->whereYear('date', Carbon::now()->year);
+    //     });
+
+            static::addGlobalScope(new YearScope);
+     }
 }

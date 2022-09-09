@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Scopes\YearScope;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -288,7 +289,7 @@ Route::get('/local-scope', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Local Scope Function
+| Anonymous Scope Function
 |--------------------------------------------------------------------------
 |
 */
@@ -302,6 +303,18 @@ Route::get('/anonymous-global-scopes', function(){
     return $posts;
 });
 
+/*
+|--------------------------------------------------------------------------
+| Global Scope Function
+|--------------------------------------------------------------------------
+|
+*/
+ Route::get('/global-scope', function(){
+    //$posts = Post::get();
+    $posts = Post::withoutGlobalScope(YearScope::class)->get();
+
+    return $posts;
+ });
 /*
 |--------------------------------------------------------------------------
 | Welcome Function
