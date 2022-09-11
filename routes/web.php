@@ -294,7 +294,7 @@ Route::get('/local-scope', function () {
 |
 */
 
-Route::get('/anonymous-global-scopes', function(){
+Route::get('/anonymous-global-scopes', function () {
     //$posts = Post::get();
 
     /*Se não quiser utilizar o scope global*/
@@ -309,12 +309,34 @@ Route::get('/anonymous-global-scopes', function(){
 |--------------------------------------------------------------------------
 |
 */
- Route::get('/global-scope', function(){
+
+Route::get('/global-scope', function () {
     //$posts = Post::get();
     $posts = Post::withoutGlobalScope(YearScope::class)->get();
 
     return $posts;
- });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Observers Function
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/observers', function () {
+    //$user = User::first();
+    $post = Post::create([
+        //'user_id' => $user->id,
+        'title' => 'Um novo titulo' . Str::random(10),
+        'body' => Str::random(100),
+        'date' => now(),
+    ]);
+
+    //$posts = Post::get();
+
+    return $post;
+});
+
 /*
 |--------------------------------------------------------------------------
 | Welcome Function

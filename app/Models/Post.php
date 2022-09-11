@@ -14,7 +14,7 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes, DefaultAccessors;
 
-    protected $fillable = ['user_id', 'title', 'body', 'date'];
+    protected $fillable = ['title', 'body', 'date'];
 
     /*Especificar a tipagem*/
     protected $casts = [
