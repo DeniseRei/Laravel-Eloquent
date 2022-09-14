@@ -27,7 +27,7 @@ class Post extends Model
 
     protected $dispatchesEvents = [
 
-        'created' => PostCreated::class,
+        //'created' => PostCreated::class,
     ];
 
     /*Accessor* = Acessor -> Altera os dados no momento de recuperar do banco./
