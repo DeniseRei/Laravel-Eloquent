@@ -323,6 +323,7 @@ Route::get('/global-scope', function () {
 |--------------------------------------------------------------------------
 |
 */
+
 Route::get('/observers', function () {
     //$user = User::first();
     $post = Post::create([
@@ -333,6 +334,25 @@ Route::get('/observers', function () {
     ]);
 
     //$posts = Post::get();
+
+    return $post;
+});
+
+/*
+|--------------------------------------------------------------------------
+| Events Function
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('/events', function () {
+
+    $post = Post::create([
+        'user_id' => 4,
+        'title' => 'Um novo titulo' . Str::random(10),
+        'body' => Str::random(100),
+        'date' => now(),
+    ]);
 
     return $post;
 });

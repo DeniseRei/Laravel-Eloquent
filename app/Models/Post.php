@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Accessors\DefaultAccessors;
+use App\Events\PostCreated;
 use App\Scopes\YearScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,13 @@ class Post extends Model
     protected $casts = [
         'date' => 'datetime:d/m/Y',
         //active => 'boolean',
+    ];
+
+    /*Events => Depois de created dispare o evento*/
+
+    protected $dispatchesEvents = [
+
+        'created' => PostCreated::class,
     ];
 
     /*Accessor* = Acessor -> Altera os dados no momento de recuperar do banco./
@@ -78,4 +86,7 @@ class Post extends Model
 
             static::addGlobalScope(new YearScope);
      }
+
+
+
 }
